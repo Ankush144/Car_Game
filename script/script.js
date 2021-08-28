@@ -93,7 +93,7 @@ const score = document.querySelector(".score");//score card in the left-top
         function start(){
             song.play();
             car.style.top="80%";
-            car.style.left="0%";
+            car.style.left="45%";
             gameArea.innerHTML = "";
             gameArea.appendChild(car);
             gameArea.style.overflow="hidden";
