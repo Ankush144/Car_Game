@@ -2,6 +2,14 @@ const score = document.querySelector(".score");//score card in the left-top
         const startScreen =  document.querySelector(".startScreen");//pop screen on the road
         const gameArea = document.querySelector(".gameArea");//road on which car runs
         const player = {speed:5,score:0};
+        //song that is playing
+        let song = new Audio("music/main_song.mp3");
+        song.volume = 0.1;
+        //buttons in mobile view
+        let right = document.getElementById("rightbtn");
+        let left = document.getElementById("leftbtn");
+        
+        let road = gameArea.getBoundingClientRect();
         let car = document.createElement('div');
             car.setAttribute("class","car");
             car.style.display = "none"; 
@@ -56,7 +64,6 @@ const score = document.querySelector(".score");//score card in the left-top
         }
         /* function to start the gamePlay */
         function gamePlay(){
-            let road = gameArea.getBoundingClientRect();
             player.y = car.offsetTop;
             player.x = car.offsetLeft;
             if(player.start){ 
@@ -77,13 +84,16 @@ const score = document.querySelector(".score");//score card in the left-top
                 car.style.top = player.y + "px";
                 car.style.left = player.x + "px";  
                 player.score++;
-                score.innerHTML="Score<br>"+player.score;              
+                score.innerHTML="Score<br>"+player.score;            
                 window.requestAnimationFrame(gamePlay);//recursive call to requestAnimationFrame function until player.first!=false
                 
             }
         }
         /* function to hide the popup and to start the gameArea */
         function start(){
+            song.play();
+            car.style.top="80%";
+            car.style.left="0%";
             gameArea.innerHTML = "";
             gameArea.appendChild(car);
             gameArea.style.overflow="hidden";
@@ -98,15 +108,28 @@ const score = document.querySelector(".score");//score card in the left-top
             for(let x = 0;x<3;x++){
                 let enemyCar = document.createElement('div');
                 enemyCar.setAttribute('class','enemyCar');
-                enemyCar.y = (x*250);
+                enemyCar.y = (x*250)*(-1);
                 enemyCar.style.top = enemyCar.y + "px";
-                enemyCar.style.left = Math.floor(Math.random()*350) +"px";
+                enemyCar.style.left = Math.floor(Math.random()*(road.width-50)) +"px";
                 gameArea.appendChild(enemyCar);
             }
             this.classList.add("hide");//this is poiniting to startScreen
             score.classList.remove('hide');
             player.start=true;
             player.score=0;
-            car.style.display = "block"; 
+            car.style.display = "block";  
             window.requestAnimationFrame(gamePlay);
-        }s
+        }
+        /* gameplay for mobile game */
+        right.addEventListener("touchstart",function(){
+            keys["ArrowRight"]=true;
+        });
+        right.addEventListener("touchend",function(){
+            keys["ArrowRight"]=false;
+        });
+        left.addEventListener("touchstart",function(){
+            keys["ArrowLeft"]=true;
+        });
+        left.addEventListener("touchend",function(){
+            keys["ArrowLeft"]=false;
+        });
