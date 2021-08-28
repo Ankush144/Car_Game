@@ -47,6 +47,7 @@ const score = document.querySelector(".score");//score card in the left-top
                     carx.y=0;
                 }  
                  if(isCollide(car,carx)) {
+                    song.pause();
                    player.start=false;
                    startScreen.classList.remove('hide');
                 }             
@@ -92,7 +93,7 @@ const score = document.querySelector(".score");//score card in the left-top
         /* function to hide the popup and to start the gameArea */
         function start(){
             song.play();
-            car.style.top="80%";
+            car.style.top="70%";
             car.style.left="45%";
             gameArea.innerHTML = "";
             gameArea.appendChild(car);
